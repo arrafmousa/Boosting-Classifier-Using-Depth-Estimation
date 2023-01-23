@@ -3,6 +3,9 @@ By Mousa Arraf & Chen Chen Katz.
 
 This repository is part of a final project in the Technion's course 046211 - Deep Learning
 
+## Abstract
+ In this work we try to boost the accuracyof basic CNNs and CNN with an LSTM layer using an estimation of the depth of the objects in RGB pictures.
+ 
 ![alt text](https://github.com/arrafmousa/Deep_final_project/blob/main/graphics/layout.png?raw=True)
 ## Datasets
 

@@ -37,6 +37,8 @@ here we can see that using estimated depth we were able to boost the performance
 ![alt text](https://github.com/arrafmousa/Deep_final_project/blob/main/graphics/Screenshot%202023-01-23%20213336.png?raw=True)
 
  we also experimented with diffrent sizes of datasets the accuracy boost is as follows
- 
  ![alt text](https://github.com/arrafmousa/Deep_final_project/blob/main/graphics/Picture1.png?raw=True)
+ 
+ As expected, the biggest improvement in performance can be achieved when using small datasets
+
 

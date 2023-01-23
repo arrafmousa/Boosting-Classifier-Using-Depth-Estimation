@@ -25,3 +25,10 @@ after cloning in the repository please run :
     ```
 where you can pass True or False as is_lstm or is_depth to train diffrent models.
 cifar_dir should be the path to the root directory of the cifar dataset
+
+## Results 
+here we can see that using estimated depth we were able to boost the performance of our baseline models.
+![alt text](https://github.com/arrafmousa/Deep_final_project/blob/main/graphics/Screenshot%202023-01-23%20213336.png?raw=True)
+ we also experimented with diffrent sizes of datasets the accuracy boost is as follows
+ ![alt text](https://github.com/arrafmousa/Deep_final_project/blob/main/graphics/Picture1.png?raw=True)
+

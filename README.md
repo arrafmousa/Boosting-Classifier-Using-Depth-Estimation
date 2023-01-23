@@ -4,7 +4,7 @@ By Mousa Arraf & Chen Chen Katz.
 This repository is part of a final project in the Technion's course 046211 - Deep Learning
 
 ![alt text](https://github.com/arrafmousa/Deep_final_project/blob/main/graphics/layout.png?raw=True)
-# Datasets
+## Datasets
 
 cifar-10 RGB format
 which is available at : https://www.cs.toronto.edu/~kriz/cifar.html
@@ -14,7 +14,7 @@ which is available at : https://rgbd-dataset.cs.washington.edu/dataset.html
 
 ## Run code
 1. git clone https://github.com/arrafmousa/Deep_final_project
-# after cloning in the repository please run :
+after cloning in the repository please run :
     ```
     conda env create -f environment.yml
     conda activate depth_estimation

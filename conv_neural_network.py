@@ -145,7 +145,7 @@ class Net(nn.Module):
         return x, svm_in
 
 
-def train_and_validate(is_depth, is_lstm, cifar_dir=None):
+def train_and_validate(is_depth, is_lstm,is_svm,num_epochs, cifar_dir=r'C:\Users\USER\Desktop\deep\replication\cifar-10_rgb_format'):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"found device {device}")
     ## FOR Object-RGBD training
@@ -197,7 +197,7 @@ def train_and_validate(is_depth, is_lstm, cifar_dir=None):
     optimizer = optim.Adam(net.parameters(), lr=0.001)
     svm_acc = []
     model_acc = []
-    for epoch in range(10):  # loop over the dataset multiple times
+    for epoch in range(num_epochs):  # loop over the dataset multiple times
 
         X, Y = [], []
         for i, data in enumerate(trainloader, 0):
@@ -233,18 +233,23 @@ def train_and_validate(is_depth, is_lstm, cifar_dir=None):
             X.append(net(inputs.to(device))[1].cpu().detach().numpy())
             Y.append(labels[0].item())
 
-        # print("fitting SVM")
-        clf = svm.SVC(C=2, kernel='poly', degree=1)  # verbose=True
-        clf.fit(X, Y)
-        print("done fitting")
-        dump(clf, f"fc2_conv_lstm_depth_svm_model_epoch_{epoch}")
-        # clf = joblib.load(f"fc2_conv_svm_model_epoch_{epoch}")
+        if is_svm:
+            # print("fitting SVM")
+            clf = svm.SVC(C=2, kernel='poly', degree=1)  # verbose=True
+            clf.fit(X, Y)
+            print("done fitting")
+            dump(clf, f"fc2_conv_lstm_depth_svm_model_epoch_{epoch}")
+            # clf = joblib.load(f"fc2_conv_svm_model_epoch_{epoch}")
 
         svm_val_acc = []
         for i, data in enumerate(testloader, 0):
             # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data
-            pred = clf.predict([net(inputs.to(device))[1].cpu().detach().numpy()])
+            if is_svm:
+                pred = clf.predict([net(inputs.to(device))[1].cpu().detach().numpy()])
+            else:
+                outputs, _ = net(inputs.to(device))
+                pred = outputs.argmax().cpu()
             svm_val_acc.append(1 if pred.item() == labels.item() else 0)
         print(f"\t \t svm validation acc for {epoch} is {sum(svm_val_acc) / len(svm_val_acc)}")
         svm_acc.append(sum(svm_val_acc) / len(svm_val_acc))
@@ -374,9 +379,13 @@ def plot_results():
 
 
 if __name__ == '__main__':
-    args = argparse.ArgumentParser()
-    args.add_argument("--is_lstm", type=bool)
-    args.add_argument("--is_depth", type=bool)
-    args.add_argument("--cifar_dir", type=bool)
-    train_and_validate(args.is_depth, args.is_lstm, args.cifar_dir)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--is_lstm", type=bool)
+    parser.add_argument("--is_depth", type=bool)
+    parser.add_argument("--cifar_dir", type=bool)
+    parser.add_argument("--is_svm", type=bool)
+    parser.add_argument("--num_epochs", type=int)
+    parser.parse_args()
+    args = parser.parse_args()
+    train_and_validate(args.is_depth, args.is_lstm, args.is_svm, args.num_epochs)
     plot_results()

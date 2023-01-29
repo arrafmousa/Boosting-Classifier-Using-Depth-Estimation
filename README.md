@@ -17,19 +17,29 @@ which is available at : https://rgbd-dataset.cs.washington.edu/dataset.html
 
 
 ## Run code
+
 1. git clone https://github.com/arrafmousa/Deep_final_project
 after cloning in the repository please run :
     ```
     conda env create -f environment.yml
     conda activate depth_estimation
     ```
+3. download the rgb dataset from: http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
 2. run 
     ```
-    python conv_neural_network.py --is_lstm=is_depth --is_depth=is_depth --cifar_dir=cifar_dir
-    ```
-where you can pass True or False as is_lstm or is_depth to train diffrent models.
+    # create cifar-10 RGBD dataset:
+    python create_cifar10_depth_dataset.py --cifar10_dir [the rgb dataset you downloaded] --cifar10_RGBD_output_dir [rgbd output dir]
+    
+    # get the accuracy improvment ratio of diffrent datasets sizes in case of using estimated depth images:
+    python rgbd_cifar10_dataset_classifier.py --cifar10_rgbd_dir  [the created rgbd dataset path] --train_with_all_dataset_sizes
+    
+    # get the accuracy improvment ration of diffrent small datasets sizes in case of using estimated depth images: 
+    python rgbd_cifar10_dataset_classifier.py --cifar10_rgbd_dir  [the created rgbd dataset path] --train_with_small_dataset_sizes
 
-cifar_dir should be the path to the root directory of the cifar dataset
+    # test the performance of the diffrent architectures
+    # where you can pass True or False as is_lstm or is_depth to train diffrent models.
+    python conv_neural_network.py --is_lstm=is_depth --is_depth=is_depth --cifar_dir=[the created rgbd dataset path]
+    ```
 
 ## Results 
 here we can see that using estimated depth we were able to boost the performance of our baseline models.
